@@ -310,6 +310,13 @@ abstract contract SphereXProtectedBase {
         _sphereXValidatePost(-num, msg.sig == selector, locals);
     }
 
+    modifier sphereXGuardExternalSig() {
+        int256 num = int256(uint256(bytes32(msg.sig)));
+        ModifierLocals memory locals = _sphereXValidatePre(num, true);
+        _;
+        _sphereXValidatePost(-num, true, locals);
+    }
+
     // ============ Internal Storage logic ============
 
     /**
