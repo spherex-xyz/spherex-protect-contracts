@@ -3,7 +3,7 @@
 
 pragma solidity ^0.8.0;
 
-import {UUPSUpgradeable} from "openzeppelin/Proxy/utils/UUPSUpgradeable.sol";
+import {UUPSUpgradeable} from "openzeppelin/proxy/utils/UUPSUpgradeable.sol";
 import {Address} from "openzeppelin/utils/Address.sol";
 
 /**
