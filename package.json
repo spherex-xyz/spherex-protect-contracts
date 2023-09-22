@@ -1,0 +1,22 @@
+{
+  "name": "@spherex-xyz/contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "forge test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spherex-xyz/spherex-protect-contracts.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/spherex-xyz/spherex-protect-contracts/issues"
+  },
+  "homepage": "https://github.com/spherex-xyz/spherex-protect-contracts#readme"
+}
