@@ -23,9 +23,9 @@ contract ProtectedTransparentUpgradeableSubProxy is SphereXProtectedSubProxy, Tr
     {}
 
     /**
-     * @dev Like in TransparentUpgradeableProxy._fallback, the spherex's admin is directed to the management functions.
+     * @dev This is used since both SphereXProtectedSubProxy and TransparentUpgradeableProxy implements Proxy.sol _beforeFallback.
      */
-    function _fallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {
+    function _beforeFallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {
         if (msg.sender == sphereXAdmin()) {
             if (msg.sig == ISphereXProtectedSubProxy.subUpgradeTo.selector) {
                 address newImplementation = abi.decode(msg.data[4:], (address));
@@ -37,7 +37,7 @@ contract ProtectedTransparentUpgradeableSubProxy is SphereXProtectedSubProxy, Tr
                 revert("ProtectedTransparentUpgradeableSubProxy: admin cannot fallback to sub-proxy target");
             }
         } else {
-            TransparentUpgradeableProxy._fallback();
+            TransparentUpgradeableProxy._beforeFallback();
         }
     }
 
