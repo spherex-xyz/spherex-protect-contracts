@@ -25,7 +25,12 @@ contract ProtectedTransparentUpgradeableSubProxy is SphereXProtectedSubProxy, Tr
     /**
      * @dev This is used since both SphereXProtectedSubProxy and TransparentUpgradeableProxy implements Proxy.sol _beforeFallback.
      */
-    function _beforeFallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {
+    function _beforeFallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {}
+
+    /**
+     * @dev This is used since both SphereXProtectedSubProxy and TransparentUpgradeableProxy implements Proxy.sol _fallback.
+     */
+    function _fallback() internal virtual override {
         if (msg.sender == sphereXAdmin()) {
             if (msg.sig == ISphereXProtectedSubProxy.subUpgradeTo.selector) {
                 address newImplementation = abi.decode(msg.data[4:], (address));
