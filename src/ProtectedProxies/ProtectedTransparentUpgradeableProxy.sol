@@ -20,16 +20,16 @@ contract ProtectedTransparentUpgradeableProxy is SphereXProtectedProxy, Transpar
     {}
 
     /**
-     * @dev This is used since both SphereXProtectedProxy and TransparentUpgradeableProxy implements Proxy.sol _fallback.
-     */
-    function _fallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {
-        TransparentUpgradeableProxy._fallback();
-    }
-
-    /**
      * @dev This is used since both SphereXProtectedProxy and TransparentUpgradeableProxy implements Proxy.sol _delegate.
      */
     function _delegate(address implementation) internal virtual override(Proxy, SphereXProtectedProxy) {
         SphereXProtectedProxy._delegate(implementation);
+    }
+
+    /**
+     * @dev This is used since both SphereXProtectedProxy and TransparentUpgradeableProxy implements Proxy.sol _beforeFallback.
+     */
+    function _beforeFallback() internal virtual override(Proxy, TransparentUpgradeableProxy) {
+        TransparentUpgradeableProxy._beforeFallback();
     }
 }

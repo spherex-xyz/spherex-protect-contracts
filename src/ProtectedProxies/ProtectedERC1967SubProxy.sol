@@ -4,25 +4,17 @@
 pragma solidity ^0.8.0;
 
 import {ERC1967Proxy, Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
-import {IERC1822Proxiable} from "@openzeppelin/contracts/interfaces/draft-IERC1822.sol";
 
 import {SphereXProtectedSubProxy, SphereXProtectedProxy} from "../SphereXProtectedSubProxy.sol";
 
 /**
  * @dev ERC1967Proxy implementation with spherex's protection designed to be under another proxy
  */
-contract ProtectedERC1967SubProxy is SphereXProtectedSubProxy, ERC1967Proxy, IERC1822Proxiable {
+contract ProtectedERC1967SubProxy is SphereXProtectedSubProxy, ERC1967Proxy {
     constructor(address _logic, bytes memory _data)
         SphereXProtectedSubProxy(address(0), address(0), address(0))
         ERC1967Proxy(_logic, _data)
     {}
-
-    /**
-     * @dev Return ERC1967 original's slot to pass the old imp ERC1822 check
-     */
-    function proxiableUUID() external view virtual override returns (bytes32) {
-        return _IMPLEMENTATION_SLOT;
-    }
 
     /**
      * @dev This is used since both SphereXProtectedSubProxy and ERC1967Proxy implements Proxy.sol _delegate.

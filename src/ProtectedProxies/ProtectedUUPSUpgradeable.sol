@@ -42,18 +42,11 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
     }
 
     /**
-     * @dev Return ERC1967 original's slot to pass the old imp ERC1822 check
-     */
-    function proxiableUUID() external view virtual override notDelegated returns (bytes32) {
-        return _IMPLEMENTATION_SLOT;
-    }
-
-    /**
      * @dev Overrid with the same implementation replacing the onlyProxy modifier since is being called under a sub-proxy
      */
     function upgradeTo(address newImplementation) public virtual override onlySubProxy {
         _authorizeUpgrade(newImplementation);
-        _upgradeToAndCallUUPS(newImplementation, new bytes(0), false);
+        _upgradeToAndCallSecure(newImplementation, new bytes(0), false);
     }
 
     /**
@@ -67,7 +60,7 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
         onlySubProxy
     {
         _authorizeUpgrade(newImplementation);
-        _upgradeToAndCallUUPS(newImplementation, data, true);
+        _upgradeToAndCallSecure(newImplementation, data, true);
     }
 
     /**
