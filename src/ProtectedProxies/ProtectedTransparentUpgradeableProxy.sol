@@ -15,7 +15,7 @@ import {SphereXProtectedProxy} from "../SphereXProtectedProxy.sol";
  */
 contract ProtectedTransparentUpgradeableProxy is SphereXProtectedProxy, TransparentUpgradeableProxy {
     constructor(address _logic, address admin_, bytes memory _data)
-        SphereXProtectedProxy(msg.sender, address(0), address(0))
+        SphereXProtectedProxy(tx.origin, address(0), address(0))
         TransparentUpgradeableProxy(_logic, admin_, _data)
     {}
 
