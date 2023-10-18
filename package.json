@@ -1,7 +1,7 @@
 {
     "name": "@spherex-xyz/contracts",
-    "version": "1.0.4",
-    "description": "",
+    "version": "0.0.1",
+    "description": "Specical version of the contracts to support a deployer contract.",
     "files": [
         "src/**/*.sol",
         "artifacts/src/**/*.json"
