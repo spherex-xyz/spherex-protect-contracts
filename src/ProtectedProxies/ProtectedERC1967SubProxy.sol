@@ -11,10 +11,7 @@ import {SphereXProtectedSubProxy, SphereXProtectedProxy} from "../SphereXProtect
  * @dev ERC1967Proxy implementation with spherex's protection designed to be under another proxy
  */
 contract ProtectedERC1967SubProxy is SphereXProtectedSubProxy, ERC1967Proxy {
-    constructor(address _logic, bytes memory _data)
-        SphereXProtectedSubProxy(address(0), address(0), address(0))
-        ERC1967Proxy(_logic, _data)
-    {}
+    constructor(address _logic, bytes memory _data) SphereXProtectedSubProxy() ERC1967Proxy(_logic, _data) {}
 
     /**
      * @dev This is used since both SphereXProtectedSubProxy and ERC1967Proxy implements Proxy.sol _delegate.
