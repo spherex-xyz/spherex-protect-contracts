@@ -42,7 +42,7 @@ contract ProtectedTransparentUpgradeableSubProxy is SphereXProtectedSubProxy, Tr
                 revert("ProtectedTransparentUpgradeableSubProxy: admin cannot fallback to sub-proxy target");
             }
         } else {
-            TransparentUpgradeableProxy._beforeFallback();
+            _delegate(SphereXProtectedSubProxy._implementation());
         }
     }
 
