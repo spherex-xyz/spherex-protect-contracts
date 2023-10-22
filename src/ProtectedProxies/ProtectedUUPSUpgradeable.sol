@@ -45,7 +45,7 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
     /**
      * @dev Overrid with the same implementation replacing the onlyProxy modifier since is being called under a sub-proxy
      */
-    function upgradeTo(address newImplementation) public virtual override {
+    function upgradeTo(address newImplementation) public virtual override onlySubProxy {
         _authorizeUpgrade(newImplementation);
         _upgradeToAndCallSecure(newImplementation, new bytes(0), false);
     }
