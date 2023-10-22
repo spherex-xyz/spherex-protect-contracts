@@ -3,14 +3,15 @@
 
 pragma solidity ^0.8.0;
 
-import {UUPSUpgradeable} from "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
 
 /**
  * @dev UUPSUpgradeable implementation designed for implementations under SphereX's ProtectedERC1967SubProxy
  */
 abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
+    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable state-variable-assignment
     address private immutable _self = address(this);
 
     bytes32 private constant _SPHEREX_IMPLEMENTATION_SLOT =
@@ -44,7 +45,7 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
     /**
      * @dev Overrid with the same implementation replacing the onlyProxy modifier since is being called under a sub-proxy
      */
-    function upgradeTo(address newImplementation) public virtual override onlySubProxy {
+    function upgradeTo(address newImplementation) public virtual override {
         _authorizeUpgrade(newImplementation);
         _upgradeToAndCallSecure(newImplementation, new bytes(0), false);
     }
@@ -77,9 +78,15 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
      * @param newImplementation new dst address
      * @param data delegate call's data for the new implementation
      */
+    /// @custom:oz-upgrades-unsafe-allow delegatecall
     function subUpgradeToAndCall(address newImplementation, bytes memory data) external {
         _authorizeUpgrade(newImplementation);
         _setSubImplementation(newImplementation);
-        Address.functionDelegateCall(newImplementation, data);
+
+        require(AddressUpgradeable.isContract(newImplementation), "Address: delegate call to non-contract");
+
+        // solhint-disable-next-line avoid-low-level-calls
+        (bool success, bytes memory returndata) = newImplementation.delegatecall(data);
+        AddressUpgradeable.verifyCallResult(success, returndata, "Address: low-level delegate call failed");
     }
 }
