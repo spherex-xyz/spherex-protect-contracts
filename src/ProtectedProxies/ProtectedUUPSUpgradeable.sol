@@ -6,40 +6,14 @@ pragma solidity ^0.8.0;
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {AddressUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import {StorageSlot} from "@openzeppelin/contracts/utils/StorageSlot.sol";
+import {SubProxyStorage} from "../Utils/SubProxyStorage.sol";
 
 /**
  * @dev UUPSUpgradeable implementation designed for implementations under SphereX's ProtectedERC1967SubProxy
  */
-abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
-    /// @custom:oz-upgrades-unsafe-allow state-variable-immutable state-variable-assignment
-    address private immutable _self = address(this);
-
-    bytes32 private constant _SPHEREX_IMPLEMENTATION_SLOT =
-        bytes32(uint256(keccak256("eip1967.spherex.implementation_slot")) - 1);
-
-    /**
-     * Sets an address value in in the sub-imp storage slot
-     * @param newImplementation to be set
-     */
-    function _setSubImplementation(address newImplementation) private {
-        StorageSlot.getAddressSlot(_SPHEREX_IMPLEMENTATION_SLOT).value = newImplementation;
-    }
-
-    /**
-     * Returns an sub-imp address from our arbitrary slot.
-     */
-    function _getSubImplementation() internal view returns (address) {
-        return StorageSlot.getAddressSlot(_SPHEREX_IMPLEMENTATION_SLOT).value;
-    }
-
-    /**
-     * @dev Check that the execution is being performed through a delegatecall call and that the execution context is
-     * the sub-proxy contract with an implementation (as defined in SphereXProtectedSubProxy) pointing to self.
-     */
-    modifier onlySubProxy() {
-        require(address(this) != _self, "Function must be called through delegatecall");
-        require(_getSubImplementation() == _self, "Function must be called through active proxy");
-        _;
+abstract contract ProtectedUUPSUpgradeable is SubProxyStorage, UUPSUpgradeable {
+    function getSubImplementation() external view returns (address) {
+        return _getSubImplementation();
     }
 
     /**
@@ -68,7 +42,7 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
      * Upgrades the logic in our arbitrary slot
      * @param newImplementation new dst address
      */
-    function subUpgradeTo(address newImplementation) external {
+    function subUpgradeTo(address newImplementation) external onlySubProxy {
         _authorizeUpgrade(newImplementation);
         _setSubImplementation(newImplementation);
     }
@@ -78,8 +52,7 @@ abstract contract ProtectedUUPSUpgradeable is UUPSUpgradeable {
      * @param newImplementation new dst address
      * @param data delegate call's data for the new implementation
      */
-    /// @custom:oz-upgrades-unsafe-allow delegatecall
-    function subUpgradeToAndCall(address newImplementation, bytes memory data) external {
+    function subUpgradeToAndCall(address newImplementation, bytes memory data) external onlySubProxy {
         _authorizeUpgrade(newImplementation);
         _setSubImplementation(newImplementation);
 

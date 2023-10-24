@@ -12,6 +12,7 @@ import {SphereXProxyBase} from "./SphereXProxyBase.sol";
  * @title SphereX abstract proxt contract which implements OZ's Proxy intereface.
  */
 abstract contract SphereXProtectedProxy is SphereXProxyBase, Proxy {
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor(address admin, address operator, address engine) SphereXProxyBase(admin, operator, engine) {}
 
     /**

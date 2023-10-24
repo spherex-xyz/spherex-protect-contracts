@@ -6,6 +6,7 @@ pragma solidity ^0.8.0;
 import {SphereXProtectedBase} from "./SphereXProtectedBase.sol";
 
 contract SphereXProxyBase is SphereXProtectedBase {
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor(address admin, address operator, address engine) SphereXProtectedBase(admin, operator, engine) {}
 
     event AddedProtectedFuncSigs(bytes4[] patterns);
