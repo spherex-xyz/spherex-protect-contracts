@@ -50,12 +50,12 @@
     },
     {
       "inputs": [],
-      "name": "proxiableUUID",
+      "name": "getSubImplementation",
       "outputs": [
         {
-          "internalType": "bytes32",
+          "internalType": "address",
           "name": "",
-          "type": "bytes32"
+          "type": "address"
         }
       ],
       "stateMutability": "view",

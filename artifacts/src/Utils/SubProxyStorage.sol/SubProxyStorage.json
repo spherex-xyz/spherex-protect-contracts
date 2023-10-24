@@ -1,0 +1,10 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "SubProxyStorage",
+  "sourceName": "src/Utils/SubProxyStorage.sol",
+  "abi": [],
+  "bytecode": "0x60a06040523073ffffffffffffffffffffffffffffffffffffffff1660809073ffffffffffffffffffffffffffffffffffffffff16815250348015604257600080fd5b50608051603f605860003960005050603f6000f3fe6080604052600080fdfea264697066735822122044f93be30b0c1c7d3a14c21c211aea1a4f37e540d0ebebb151f6108a35674f8264736f6c63430008130033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122044f93be30b0c1c7d3a14c21c211aea1a4f37e540d0ebebb151f6108a35674f8264736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
