@@ -205,7 +205,7 @@ abstract contract SphereXProtectedBase {
      *  or a 'public' function from another address
      */
     function _sphereXValidatePre(int256 num, bool isExternalCall)
-        private
+        internal
         returnsIfNotActivated
         returns (ModifierLocals memory locals)
     {
@@ -228,7 +228,7 @@ abstract contract SphereXProtectedBase {
      *  or a 'public' function from another address
      */
     function _sphereXValidatePost(int256 num, bool isExternalCall, ModifierLocals memory locals)
-        private
+        internal
         returnsIfNotActivated
     {
         uint256 gas = locals.gas - gasleft();
